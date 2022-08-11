@@ -23,7 +23,9 @@ switch ($action) {
 			header("Location: .?action=login-failed");
 		}else{
 			if ($user['password']==$password){
-				header("Location: .?action=timeline&username=".$user['username']);
+				session_start();
+				$_SESSION['username'] = $user['username'];
+				header("Location: .?action=timeline");
 			}else{
 				header("Location: .?action=login-failed");
 			}
@@ -37,7 +39,8 @@ switch ($action) {
 		break;
 
 	case 'timeline':
-		echo 'Welcome '.$username ;
+		session_start();
+		include './view/timeline.php';		
 		break;		
 	
 	default:
