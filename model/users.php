@@ -12,6 +12,16 @@ function login($username,$password){
 	
 }
 
+function add_user($username,$password){
+	global $db;
+	$query = 'INSERT INTO users (username,password) VALUES (:username,:password)';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':username',$username);
+	$statment -> bindValue (':password',$password);
+	$done = $statment -> execute();
+	$statment -> closeCursor();
+	return $done;
+}
 
 
 ?>
