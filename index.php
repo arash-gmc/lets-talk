@@ -46,7 +46,7 @@ switch ($action) {
 		break;
 
 	case 'timeline':
-		$posts = get_posts();
+		$posts = get_all_posts();
 		include './view/timeline.php';		
 		break;
 
@@ -64,6 +64,30 @@ switch ($action) {
 	case 'signing-up' :
 		require './model/signup.php';
 		break;
+
+	case 'profile' :
+		$profile_id  = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
+		$viewer_id = $_SESSION['user_id'];
+		$posts = get_posts_from_one_user($profile_id);
+		$username = find_username($profile_id)[0];
+		include './view/profile.php';
+		break;
+
+	case 'following' :
+		$following = $_SESSION['user_id'];
+		$followed = filter_input(INPUT_GET,'followed',FILTER_SANITIZE_STRING);
+		var_dump($following);
+		var_dump($followed);
+		follow($following,$followed);
+		header("Location: .?action=profile&profile_id=".$followed);	
+		break;	
+
+	case 'unfollowing' :
+		$following = $_SESSION['user_id'];
+		$followed = filter_input(INPUT_GET,'followed',FILTER_SANITIZE_STRING);
+		unfollow($following,$followed);	
+		header("Location: .?action=profile&profile_id=".$followed);
+		break;		
 
 
 	default:
