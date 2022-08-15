@@ -47,12 +47,34 @@ function follow($following_id,$followed_id){
 		array_push($followings, $followed_id);
 	}
 	$followings = implode(',',$followings);
+	if(substr($followings,0,1)==','){$followings = substr($followings,1,strlen($followings));}
 	$query = 'UPDATE users SET followings = :followings WHERE ID = :following_id';
 	$statment = $db->prepare($query);
 	$statment -> bindValue (':following_id', $following_id);
 	$statment -> bindValue (':followings', $followings);
 	$statment -> execute();
+
+
+	$query = 'SELECT followers FROM users WHERE ID = :followed_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':followed_id', $followed_id);
+	$statment -> execute();
+	$followers = ($statment -> fetch())[0] ;
+	$followers = explode(',', $followers);
+	if(!(in_array($following_id, $followers))){
+		array_push($followers, $following_id);
+	}
+	$followers = implode(',',$followers);
+	if(substr($followers,0,1)==','){$followers = substr($followers,1,strlen($followers));}
+	$query = 'UPDATE users SET followers = :followers WHERE ID = :followed_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':followed_id', $followed_id);
+	$statment -> bindValue (':followers', $followers);
+	$statment -> execute();
+
+
 	$statment -> closeCursor();
+	return $followings;
 	
 	
 }
@@ -75,7 +97,28 @@ function unfollow($following_id,$followed_id){
 	$statment -> bindValue (':following_id', $following_id);
 	$statment -> bindValue (':followings', $followings);
 	$statment -> execute();
+
+
+	$query = 'SELECT followers FROM users WHERE ID = :followed_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':followed_id', $followed_id);
+	$statment -> execute();
+	$followers = ($statment -> fetch())[0] ;
+	$followers = explode(',', $followers);
+	if(in_array($following_id, $followers)){
+		$key = array_search($following_id, $followers);
+		unset($followers[$key]);
+	}
+	$followers = implode(',',$followers);
+	$query = 'UPDATE users SET followers = :followers WHERE ID = :followed_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':followed_id', $followed_id);
+	$statment -> bindValue (':followers', $followers);
+	$statment -> execute();
+
+
 	$statment -> closeCursor();
+	return $followings;
 	
 	
 }

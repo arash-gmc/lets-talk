@@ -36,5 +36,19 @@ function get_posts_from_one_user($user_id){
 	$posts = $statment->fetchAll();
 	$statment -> closeCursor();
 	return $posts;
+}
 
+function get_selected_posts($selected_ids){
+	global $db;
+	$selected_ids = '('.$selected_ids.')';
+	$query = "SELECT posts.* , users.username FROM posts 
+	JOIN users ON posts.`user-id` = users.ID
+	WHERE users.ID IN :following
+	ORDER BY `date-time` DESC";
+	$query = str_replace(':following', $selected_ids, $query);
+	$statment = $db->prepare($query);
+	$statment -> execute();
+	$posts = $statment->fetchAll();
+	$statment -> closeCursor();
+	return $posts;
 }

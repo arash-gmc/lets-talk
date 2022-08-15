@@ -18,6 +18,19 @@
 	
 </form>
 
+<div class=" mt-3">
+	<ul class="nav nav-tabs mx-5">
+	  <li class="nav-item">
+	    <a class="nav-link <?php if($action=='timeline'){echo 'active';} ?>" aria-current="page" href=".?action=timeline">All Users</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link <?php if($action=='following-timeline'){echo 'active';} ?>" href=".?action=following-timeline">Followings</a>
+	  </li>
+	</ul>
+</div>
+
+
+
 <div>
 	<?php foreach ($posts as $post) : ?>
 		<div class="container mt-2 border-bottom d-flex" style="height: 110px;">

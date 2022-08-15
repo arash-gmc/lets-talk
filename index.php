@@ -33,6 +33,7 @@ switch ($action) {
 			if ($user['password']==$password){
 				$_SESSION['username'] = $user['username'];
 				$_SESSION['user_id'] = $user['ID'];
+				$_SESSION['followings'] = $user['followings'];
 				header("Location: .?action=timeline");
 			}else{
 				header("Location: .?action=login-failed");
@@ -49,6 +50,14 @@ switch ($action) {
 		$posts = get_all_posts();
 		include './view/timeline.php';		
 		break;
+
+	case 'following-timeline' :
+		$followings = $_SESSION['followings'];
+		$posts = get_selected_posts($followings);
+		include './view/timeline.php';		
+		break;
+
+		break;	
 
 	case 'post-send' :
 		send_post($user_id,$post_text);
@@ -76,16 +85,14 @@ switch ($action) {
 	case 'following' :
 		$following = $_SESSION['user_id'];
 		$followed = filter_input(INPUT_GET,'followed',FILTER_SANITIZE_STRING);
-		var_dump($following);
-		var_dump($followed);
-		follow($following,$followed);
+		$_SESSION['followings'] = follow($following,$followed);
 		header("Location: .?action=profile&profile_id=".$followed);	
 		break;	
 
 	case 'unfollowing' :
 		$following = $_SESSION['user_id'];
 		$followed = filter_input(INPUT_GET,'followed',FILTER_SANITIZE_STRING);
-		unfollow($following,$followed);	
+		$_SESSION['followings'] = unfollow($following,$followed);	
 		header("Location: .?action=profile&profile_id=".$followed);
 		break;		
 
