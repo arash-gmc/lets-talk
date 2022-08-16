@@ -1,6 +1,7 @@
 <?php require './model/database.php' ?>
 <?php require './model/users.php' ?>
 <?php require './model/posts.php' ?>
+<?php require './model/comments.php' ?>
 
 
 <?php include './view/header.php' ?>
@@ -77,8 +78,8 @@ switch ($action) {
 	case 'profile' :
 		$profile_id  = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
 		$viewer_id = $_SESSION['user_id'];
-		$posts = get_posts_from_one_user($profile_id);
-		$username = find_username($profile_id)[0];
+		$username = find_username($profile_id);
+		$posts = get_selected_posts($profile_id);
 		include './view/profile.php';
 		break;
 
@@ -94,11 +95,45 @@ switch ($action) {
 		$followed = filter_input(INPUT_GET,'followed',FILTER_SANITIZE_STRING);
 		$_SESSION['followings'] = unfollow($following,$followed);	
 		header("Location: .?action=profile&profile_id=".$followed);
-		break;		
+		break;
+
+	case 'like' :
+		$post_id = filter_input(INPUT_GET,'post',FILTER_SANITIZE_STRING);
+		$last_page = filter_input(INPUT_GET,'lastpage',FILTER_SANITIZE_STRING);
+		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
+		$user = $_SESSION['user_id'];
+		like($post_id,$user);
+		var_dump($profile_id);
+		header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
+		break;	
+
+	case 'unlike' :
+		$post_id = filter_input(INPUT_GET,'post',FILTER_SANITIZE_STRING);
+		$last_page = filter_input(INPUT_GET,'lastpage',FILTER_SANITIZE_STRING);
+		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
+		$user = $_SESSION['user_id'];
+		unlike($post_id,$user);
+		var_dump($profile_id);
+		header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
+		break;
+
+	case 'add_comment':
+		$user_id = $_SESSION['user_id'];
+		$post_id = filter_input(INPUT_GET,'post_id',FILTER_SANITIZE_STRING);
+		$post_text = filter_input(INPUT_GET,'post-text',FILTER_SANITIZE_STRING);
+		$last_page = filter_input(INPUT_GET,'lastpage',FILTER_SANITIZE_STRING);
+		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
+		add_comment($user_id,$post_id,$post_text);
+		header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
+		break;
+
+	case 'test' :
+		print_r($_SERVER['PHP_SELF']);
+		break;						
 
 
 	default:
-		include './view/login.php' ;
+		include './view/login.php';	
 		break;
 }
 

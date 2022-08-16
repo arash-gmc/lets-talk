@@ -8,7 +8,7 @@ function find_username($user_id){
 	$statment -> execute();
 	$user = $statment -> fetch();
 	$statment -> closeCursor();
-	return $user;
+	return $user[0];
 }
 
 function login($username,$password){
@@ -35,7 +35,6 @@ function add_user($username,$password){
 }
 
 function follow($following_id,$followed_id){
-	var_dump($following_id);
 	global $db;
 	$query = 'SELECT followings FROM users WHERE ID = :following_id';
 	$statment = $db->prepare($query);
@@ -140,7 +139,43 @@ function follow_check($following_id,$followed_id){
 	
 }
 
+function followings_count($profile_id){
+	global $db;
+	$query = 'SELECT followings FROM users WHERE ID = :profile_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':profile_id', $profile_id);
+	$statment -> execute();
+	$followings = ($statment -> fetch())[0] ;
+	$followings = explode(',', $followings);
+	if (count($followings)==1){
+		if ($followings[0]==''){
+			return 0;
+		}
+	}	
+	
+	$count = count($followings);
+	return $count;
+ 
+}
 
+function followers_count($profile_id){
+	global $db;
+	$query = 'SELECT followers FROM users WHERE ID = :profile_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':profile_id', $profile_id);
+	$statment -> execute();
+	$followers = ($statment -> fetch())[0] ;
+	$followers = explode(',', $followers);
+	if (count($followers)==1){
+		if ($followers[0]==''){
+			return 0;
+		}
+	}	
+	
+	$count = count($followers);
+	return $count;
+ 
+}
 
 
 

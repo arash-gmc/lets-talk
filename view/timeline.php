@@ -30,28 +30,7 @@
 </div>
 
 
-
-<div>
-	<?php foreach ($posts as $post) : ?>
-		<div class="container mt-2 border-bottom d-flex" style="height: 110px;">
-			<a href=".?action=profile&profile_id=<?= $post['user-id'] ?>">
-				<div class="me-3 mt-2">
-					<?php if(file_exists('./view/profile-pictures/'.$post['username'].'.jpg')){ ?>
-						<img src="./view/profile-pictures/<?= $post['username'] ?>.jpg"
-						 style="width: 60px ; height: 60px;object-fit: cover;"
-						 class="border rounded-circle img-fluid">
-					<?php }else{ ?>
-						<i class="bi bi-person h2 p-2 border-secondary border rounded-circle"></i>
-					<?php } ?>	
-					<p class="text-muted small mt-3 text-center"><?= $post['username'] ?></p>
-				</div>
-			</a>	
-			<p class="mt-2"><?= $post['post'] ?></p>
-			
-		</div>
-
-	<?php endforeach; ?>	
-</div>
+<?php include './view/posts.php' ?>
 
 
 
