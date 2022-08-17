@@ -1,6 +1,6 @@
 
 <div class="d-flex justify-content-center">
-	<div class='d-flex my-3 container w-50 '>
+	<div class='d-flex my-3 container w-75 '>
 		
 			<?php if(file_exists('./view/profile-pictures/'. $username .'.jpg')){ ?>
 				<img src="./view/profile-pictures/<?= $username ?>.jpg"
@@ -19,19 +19,35 @@
 			</div>
 			
 		</div>
-		<div class="d-flex flex-column  mt-4">
-			<form action='.' method="get" class="mx-3 my-2" >
-				<input type="hidden" name="followed" value="<?= $profile_id ?>">
-				<?php if(follow_check($viewer_id,$profile_id)){ ?>
-					<button class="btn btn-outline-primary">Unfollow</button>
-					<input type="hidden" name="action" value='unfollowing'>
-				<?php }else{ ?>
-					<button class='btn btn-primary' style="width:100px">Follow</button>
-					<input type="hidden" name="action" value='following'>
+
+
+		<?php if ($viewer_id != $profile_id ) { ?>
+			<div class="d-flex flex-column  mt-4">
+				<form action='.' method="get" class="mx-3 my-2" >
+					<input type="hidden" name="followed" value="<?= $profile_id ?>">
+					<?php if(follow_check($viewer_id,$profile_id)){ ?>
+						<button class="btn btn-outline-primary">Unfollow</button>
+						<input type="hidden" name="action" value='unfollowing'>
+					<?php }else{ ?>
+						<button class='btn btn-primary' style="width:100px">Follow</button>
+						<input type="hidden" name="action" value='following'>
+					<?php } ?>
+				</form>
+				<button class="btn btn-primary mx-3" style="width: 100px">Message</button>	
+			</div>
+		<?php }else{ ?>
+			<div class="d-flex flex-column mt-5" style="position: relative;">
+				<a href=".?action=notifications" class="btn btn-primary">Notifications</a>
+				<?php if($unseen_notification){ ?>
+					<div style="position: absolute;font-size: 16px;background-color: red;top: -10px;right: -10px;color: white;border-radius: 10px; text-align: center;width: 20px;height: 24px"><?= $unseen_notification ?></div>
 				<?php } ?>
-			</form>
-			<button class="btn btn-primary mx-3" style="width: 100px">Message</button>	
-		</div>	
+			</div>
+
+
+
+		<?php } ?>	
+
+
 	</div>
 </div>
 

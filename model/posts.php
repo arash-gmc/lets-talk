@@ -152,3 +152,15 @@ function posts_count($user_id){
 	$statement->closeCursor();
 	return $num[0][0];
 }
+
+
+function find_post_author($post_id){
+	global $db;
+	$query = 'SELECT `user-id` FROM posts WHERE ID = :post_id';
+	$statement = $db->prepare($query);
+	$statement->bindValue(':post_id',$post_id);
+	$statement->execute();
+	$result = $statement -> fetch();
+	$statement->closeCursor();
+	return $result[0][0];
+}

@@ -4,8 +4,8 @@
 
 <div>
 	<?php foreach ($posts as $post) : ?>		
-		<div class="row my-3" >
-			<div class="container col-md-7 border border-secondary rounded d-flex flex-column p-0" id="post-<?= $post['ID'] ?>">			
+		<div class="row my-3 justify-content-center mx-5" >
+			<div class="container col-md-7 border border-secondary rounded d-flex flex-column p-0 mx-2 my-1" id="post-<?= $post['ID'] ?>">			
 				<div class=" d-flex w-100 ps-3 pt-2 rounded " style="background-color: #EAE8E8">
 					<?php if(file_exists('./view/profile-pictures/'. $post['username'] .'.jpg')){ ?>
 						<a href=".?action=profile&profile_id=<?= $post['user-id'] ?>"><img src="./view/profile-pictures/<?= $post['username'] ?>.jpg" class="img-fluid rounded-circle " style="height: 50px;width: 50px;object-fit: cover;"></a>
@@ -23,23 +23,26 @@
 				<div class="d-flex justify-content-around container w-75 py-2">
 					<a href="#"><img src="./view/imgs/star.svg" style="height: 20px"></a>
 					<a href="#"><img src="./view/imgs/forward.svg" style="height: 26px"></a>
-					<?php if(comments_count($post['ID'])==0){ ?>
-						<img src="./view/imgs/comment.svg" style="height: 26px;cursor: pointer;" id='comment-<?= $post["ID"] ?>' onclick='test(this)'>
+					<?php if(!comment_check($_SESSION['user_id'],$post['ID'])){ ?>
+						<div class="d-flex">
+							<span class="mx-2"><?= comments_count($post['ID']) ?> </span>
+							<img src="./view/imgs/comment.svg" style="height: 26px;cursor: pointer;" id='comment-<?= $post["ID"] ?>' onclick='test(this)'>
+						</div>
 					<?php }else{ ?>
 						<div class="d-flex">
-						<span class="mx-2"><?= comments_count($post['ID']) ?> </span>	
-						<img src="./view/imgs/commented.svg" style="height: 22px;cursor: pointer;" id='comment-<?= $post["ID"] ?>' onclick='test(this)'>
+							<span class="mx-2"><?= comments_count($post['ID']) ?> </span>	
+							<img src="./view/imgs/commented.svg" style="height: 22px;cursor: pointer;" id='comment-<?= $post["ID"] ?>' onclick='test(this)'>
 						</div>
 					<?php } ?>	
 					<?php if(like_check($_SESSION['user_id'],$post['ID'])) { ?>
 						<div>
 							<span class="mx-1"><?= like_count($post['ID']) ?></span>
-							<a href=".?action=unlike&post=<?= $post['ID'] ?>&lastpage=<?= $action ?>&profile_id=<?= $profile_id ?>"><img src="./view/imgs/liked.svg" style="height: 20px"></a>
+							<a href=".?action=unlike&post=<?= $post['ID'] ?>&lastpage=<?= $action ?><?php if($action=='profile'){echo '&profile_id='.$profile_id;}?>"><img src="./view/imgs/liked.svg" style="height: 20px"></a>
 						</div>
 					<?php }else{ ?>
 						<div>
 							<span class="mx-1"><?= like_count($post['ID']) ?></span>
-							<a href=".?action=like&post=<?= $post['ID'] ?>&lastpage=<?= $action ?>&profile_id=<?= $profile_id ?>"><img src="./view/imgs/like.svg" style="height: 20px"></a>
+							<a href=".?action=like&post=<?= $post['ID'] ?>&lastpage=<?= $action ?><?php if($action=='profile'){echo '&profile_id='.$profile_id;} ?>"><img src="./view/imgs/like.svg" style="height: 20px"></a>
 						</div>	
 					<?php } ?>	
 				</div>

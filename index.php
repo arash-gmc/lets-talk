@@ -2,6 +2,7 @@
 <?php require './model/users.php' ?>
 <?php require './model/posts.php' ?>
 <?php require './model/comments.php' ?>
+<?php require './model/notifications.php' ?>
 
 
 <?php include './view/header.php' ?>
@@ -80,6 +81,7 @@ switch ($action) {
 		$viewer_id = $_SESSION['user_id'];
 		$username = find_username($profile_id);
 		$posts = get_selected_posts($profile_id);
+		$unseen_notification = count_unseen_notification($viewer_id);
 		include './view/profile.php';
 		break;
 
@@ -87,6 +89,8 @@ switch ($action) {
 		$following = $_SESSION['user_id'];
 		$followed = filter_input(INPUT_GET,'followed',FILTER_SANITIZE_STRING);
 		$_SESSION['followings'] = follow($following,$followed);
+		$notification_text = find_username($following).' strated to follow you.';
+		make_notification($following,$followed,$notification_text);
 		header("Location: .?action=profile&profile_id=".$followed);	
 		break;	
 
@@ -103,7 +107,9 @@ switch ($action) {
 		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
 		$user = $_SESSION['user_id'];
 		like($post_id,$user);
-		var_dump($profile_id);
+		$post_author = find_post_author($post_id);
+		$notification_text = $_SESSION['username'].' liked your <a href="#">post</a>';
+		make_notification($_SESSION['user_id'],$post_author,$notification_text);
 		header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
 		break;	
 
@@ -113,7 +119,6 @@ switch ($action) {
 		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
 		$user = $_SESSION['user_id'];
 		unlike($post_id,$user);
-		var_dump($profile_id);
 		header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
 		break;
 
@@ -124,11 +129,16 @@ switch ($action) {
 		$last_page = filter_input(INPUT_GET,'lastpage',FILTER_SANITIZE_STRING);
 		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
 		add_comment($user_id,$post_id,$post_text);
+		$notification_text = $_SESSION['username'].' add a comment bellow your <a href="#">post</a>'; 
+		make_notification($user_id,find_post_author($post_id),$notification_text);
 		header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
 		break;
 
-	case 'test' :
-		print_r($_SERVER['PHP_SELF']);
+	case 'notifications' :
+		$viewer = $_SESSION['user_id'];
+		$notifications = get_notifications($viewer);
+		make_notifications_seen($viewer);
+		include 'view/notifications.php';
 		break;						
 
 

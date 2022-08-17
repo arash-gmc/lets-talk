@@ -33,7 +33,7 @@
                       <input class="form-control" type="file" id="formFile" name='avatar'>
                     </div>
 
-                     <div class="d-flex justify-content-center">
+                     <div class="d-flex justify-content-center flex-nowrap">
                         <button type="submit" class="btn btn-primary mx-auto">Sign Up</button>
                     </div>
 

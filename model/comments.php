@@ -19,6 +19,9 @@ function comments_count($post_id){
 	$statement->execute();
 	$num = $statement -> fetchAll();
 	$statement->closeCursor();
+	if ($num[0][0]==0){
+		return null;
+	}
 	return $num[0][0];
 }
 
@@ -31,6 +34,25 @@ function get_some_comments($post_id){
 	$comments = $statement -> fetchAll();
 	$statement->closeCursor();
 	return $comments;
+}
+
+
+function comment_check($user_id,$post_id){
+	global $db;
+	$query = 'SELECT user_id FROM comments WHERE post_id = :post_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':post_id', $post_id);
+	$statment -> execute();
+	$commenters = $statment -> fetchAll() ;
+	foreach( $commenters as $commenter ){
+		if ($commenter[0]==$user_id){
+			return true;
+		}
+	}
+	return false;
+
+	
+	
 }
 
 
