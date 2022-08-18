@@ -21,11 +21,11 @@
 		</div>
 
 
-		<?php if ($viewer_id != $profile_id ) { ?>
+		<?php if ($user_id != $profile_id ) { ?>
 			<div class="d-flex flex-column  mt-4">
 				<form action='.' method="get" class="mx-3 my-2" >
 					<input type="hidden" name="followed" value="<?= $profile_id ?>">
-					<?php if(follow_check($viewer_id,$profile_id)){ ?>
+					<?php if(follow_check($user_id,$profile_id)){ ?>
 						<button class="btn btn-outline-primary" style="width:100px">Unfollow</button>
 						<input type="hidden" name="action" value='unfollowing'>
 					<?php }else{ ?>
@@ -33,7 +33,7 @@
 						<input type="hidden" name="action" value='following'>
 					<?php } ?>
 				</form>
-				<a href=".?action=chat-page&contact=<?= $profile_id ?>" class="btn btn-primary mx-3" style="width: 100px">Message</a>	
+				<a href=".?action=chat-page&contact=<?= $profile_id ?>#message1" class="btn btn-primary mx-3" style="width: 100px">Message</a>	
 			</div>
 		<?php }else{ ?>
 			<div class="d-flex flex-column mt-5">

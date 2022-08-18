@@ -6,7 +6,6 @@ $password  = filter_input(INPUT_POST,'password',FILTER_SANITIZE_STRING);
 $password2  = filter_input(INPUT_POST,'password2',FILTER_SANITIZE_STRING);
 
 $is_avatar = !empty($_FILES['avatar']['name']);
-var_dump($_FILES);
 if ($is_avatar){
 	$tmp_avatar = $_FILES['avatar']['tmp_name'];
 	$size_avatar = $_FILES['avatar']['size'];

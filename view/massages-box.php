@@ -23,11 +23,11 @@
 
 				<div class="d-flex justify-content-center align-content-center " style="height: 50px;width: 80%;position: relative;">
 					<p class="text-center lead " style="overflow: hidden;width: 95%">
-						<?= get_last_message($viewer,$contact_id) ?>
+						<?= get_last_message($user_id,$contact_id) ?>
 					</p>
-					<?php if(check_unseen_messages($viewer,$contact_id)) { ?>
+					<?php if(check_unseen_messages($user_id,$contact_id)) { ?>
 					<div style="position: absolute;top: 45% ; right: 40px;" class="bg-primary text-white rounded-circle p-1">
-						<?= check_unseen_messages($viewer,$contact_id) ?>
+						<?= check_unseen_messages($user_id,$contact_id) ?>
 					</div>
 					<?php } ?>	
 				</div>

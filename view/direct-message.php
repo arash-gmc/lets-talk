@@ -24,7 +24,7 @@
 		</div>
 
 		<div style="width: 70px" class="">
-			<?php $username = find_username($viewer) ?>
+			<?php $username = find_username($user_id) ?>
 			<?php if(file_exists('./view/profile-pictures/'. $username .'.jpg')){ ?>
 				<img src="./view/profile-pictures/<?= $username ?>.jpg"
 				 style="width: 60px ; height: 60px;object-fit: cover;"
@@ -38,7 +38,7 @@
 	<div class="container d-flex flex-column-reverse" style="margin-top: 84px;margin-bottom: 50px">		
 		<?php $c=1; ?>
 		<?php foreach ($messages as $message) : ?>
-			<?php if($message['from_id']==$viewer){$mine=true;}else{$mine=false;} ?>
+			<?php if($message['from_id']==$user_id){$mine=true;}else{$mine=false;} ?>
 			<div class="d-flex <?php if ($mine){echo 'justify-content-end my-0';}else{ echo 'my-3';} ?>" id='message<?= $c ?>'>
 				<div class="d-flex w-75 <?php if ($mine){echo 'justify-content-end';} ?>">
 					<div style="position: relative;">

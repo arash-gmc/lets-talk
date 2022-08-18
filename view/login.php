@@ -6,7 +6,7 @@
             <div class="d-flex align-self-center">
                 <img src="./view/imgs/logo.png" class="img-fluid mx-auto">
             </div>
-            <form action="." method="get">
+            <form action="." method="post">
                 <input type="hidden" name="action" value="login"> 
                 <div class="mb-3">
                   <label for="username" class="form-label">Username</label>

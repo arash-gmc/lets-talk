@@ -1,4 +1,7 @@
-
+<?php
+	$unseen_notification = count_unseen_notification($user_id);
+	$unseen_messages = check_all_unseen_messages($user_id);
+?>	
 
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
@@ -33,7 +36,7 @@
 			<?php } ?>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Logout</a>
+          <a class="nav-link" href=".?action=logout">Logout</a>
         </li>
       </ul>
       <form class="d-flex" role="search">
