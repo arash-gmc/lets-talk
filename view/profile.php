@@ -26,21 +26,29 @@
 				<form action='.' method="get" class="mx-3 my-2" >
 					<input type="hidden" name="followed" value="<?= $profile_id ?>">
 					<?php if(follow_check($viewer_id,$profile_id)){ ?>
-						<button class="btn btn-outline-primary">Unfollow</button>
+						<button class="btn btn-outline-primary" style="width:100px">Unfollow</button>
 						<input type="hidden" name="action" value='unfollowing'>
 					<?php }else{ ?>
 						<button class='btn btn-primary' style="width:100px">Follow</button>
 						<input type="hidden" name="action" value='following'>
 					<?php } ?>
 				</form>
-				<button class="btn btn-primary mx-3" style="width: 100px">Message</button>	
+				<a href=".?action=chat-page&contact=<?= $profile_id ?>" class="btn btn-primary mx-3" style="width: 100px">Message</a>	
 			</div>
 		<?php }else{ ?>
-			<div class="d-flex flex-column mt-5" style="position: relative;">
-				<a href=".?action=notifications" class="btn btn-primary">Notifications</a>
-				<?php if($unseen_notification){ ?>
-					<div style="position: absolute;font-size: 16px;background-color: red;top: -10px;right: -10px;color: white;border-radius: 10px; text-align: center;width: 20px;height: 24px"><?= $unseen_notification ?></div>
-				<?php } ?>
+			<div class="d-flex flex-column mt-5">
+				<div style="position: relative;">
+					<a href=".?action=notifications" class="btn btn-primary">Notifications</a>
+					<?php if($unseen_notification){ ?>
+						<div style="position: absolute;font-size: 16px;background-color: red;top: -10px;right: -10px;color: white;border-radius: 10px; text-align: center;width: 20px;height: 24px"><?= $unseen_notification ?></div>
+					<?php } ?>
+				</div>	
+				<div style="position: relative;" class="d-flex">
+					<a href=".?action=inbox" class="btn btn-primary my-3 mx-0">Messages</a>
+					<?php if($unseen_messages){ ?>
+						<div style="position: absolute;font-size: 16px;background-color: red;top: 6px;right: 8px;color: white;border-radius: 10px; text-align: center;width: 20px;height: 24px"><?= $unseen_messages ?></div>
+					<?php } ?>
+				</div>
 			</div>
 
 

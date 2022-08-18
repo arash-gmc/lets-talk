@@ -3,6 +3,7 @@
 <?php require './model/posts.php' ?>
 <?php require './model/comments.php' ?>
 <?php require './model/notifications.php' ?>
+<?php require './model/messages.php' ?>
 
 
 <?php include './view/header.php' ?>
@@ -24,6 +25,11 @@ $message = '';
 
 
 session_start();
+
+
+$viewer_id = $_SESSION['user_id'];
+$unseen_notification = count_unseen_notification($viewer_id);
+$unseen_messages = check_all_unseen_messages($viewer_id);
 
 switch ($action) {
 	case 'login':
@@ -50,6 +56,7 @@ switch ($action) {
 
 	case 'timeline':
 		$posts = get_all_posts();
+		include './view/navbar.php';
 		include './view/timeline.php';		
 		break;
 
@@ -82,6 +89,8 @@ switch ($action) {
 		$username = find_username($profile_id);
 		$posts = get_selected_posts($profile_id);
 		$unseen_notification = count_unseen_notification($viewer_id);
+		$unseen_messages = check_all_unseen_messages($viewer_id);
+		include './view/navbar.php';
 		include './view/profile.php';
 		break;
 
@@ -139,7 +148,35 @@ switch ($action) {
 		$notifications = get_notifications($viewer);
 		make_notifications_seen($viewer);
 		include 'view/notifications.php';
-		break;						
+		break;
+
+	case 'chat-page' :
+		$viewer = $_SESSION['user_id'];
+		$contact = filter_input(INPUT_GET,'contact',FILTER_SANITIZE_STRING);
+		$messages = get_messages($viewer,$contact);
+		make_seen_messages($viewer,$contact);
+		include 'view/direct-message.php';
+		
+
+		break;
+
+	case 'add-message' :
+		$viewer = $_SESSION['user_id'];
+		$contact = filter_input(INPUT_GET,'receiver',FILTER_SANITIZE_STRING);
+		$text = filter_input(INPUT_GET,'new_message',FILTER_SANITIZE_STRING);
+		send_message($viewer,$contact,$text);
+		$messages = get_messages($viewer,$contact);
+		header("Location: .?action=chat-page&contact=".$contact."#message1");
+
+
+		break;
+
+	case 'inbox' :
+		$viewer = $_SESSION['user_id'];
+		$contacts = get_contacts($viewer) ;
+		include './view/massages-box.php' ;
+
+		break;									
 
 
 	default:
