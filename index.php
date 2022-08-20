@@ -4,6 +4,7 @@
 <?php require './model/comments.php' ?>
 <?php require './model/notifications.php' ?>
 <?php require './model/messages.php' ?>
+<?php require './model/small-functions.php' ?>
 
 <?php include './view/header.php' ?>
 
@@ -88,6 +89,15 @@ switch ($action) {
 		include './view/profile.php';
 		break;
 
+	case 'post-detail' :
+		$post_id  = filter_input(INPUT_GET,'post-id',FILTER_SANITIZE_STRING);
+		$post = get_one_post($post_id);
+		$likers = get_likers($post_id);
+		include './view/navbar.php';
+		include './view/post-detail.php';
+
+		break;	
+
 	case 'following' :
 		$followed = filter_input(INPUT_GET,'followed',FILTER_SANITIZE_STRING);
 		$_SESSION['followings'] = follow($user_id,$followed);
@@ -106,19 +116,22 @@ switch ($action) {
 		$post_id = filter_input(INPUT_GET,'post',FILTER_SANITIZE_STRING);
 		$last_page = filter_input(INPUT_GET,'lastpage',FILTER_SANITIZE_STRING);
 		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
+		$searched = filter_input(INPUT_GET,'searched',FILTER_SANITIZE_STRING);
 		like($post_id,$user_id);
 		$post_author = find_post_author($post_id);
 		$notification_text = $_SESSION['username'].' liked your <a href="#">post</a>';
 		make_notification($user_id,$post_author,$notification_text);
-		header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
+		var_dump($searched);
+		header_to_lastpage($last_page,$profile_id,$post_id,$searched);	
 		break;	
 
 	case 'unlike' :
 		$post_id = filter_input(INPUT_GET,'post',FILTER_SANITIZE_STRING);
 		$last_page = filter_input(INPUT_GET,'lastpage',FILTER_SANITIZE_STRING);
 		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
+		$searched = filter_input(INPUT_GET,'searched',FILTER_SANITIZE_STRING);
 		unlike($post_id,$user_id);
-		header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
+		header_to_lastpage($last_page,$profile_id,$post_id,$searched);
 		break;
 
 	case 'add_comment':
@@ -126,15 +139,17 @@ switch ($action) {
 		$post_text = filter_input(INPUT_GET,'post-text',FILTER_SANITIZE_STRING);
 		$last_page = filter_input(INPUT_GET,'lastpage',FILTER_SANITIZE_STRING);
 		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
+		$searched = filter_input(INPUT_GET,'searched',FILTER_SANITIZE_STRING);
 		add_comment($user_id,$post_id,$post_text);
 		$notification_text = $_SESSION['username'].' add a comment bellow your <a href="#">post</a>'; 
 		make_notification($user_id,find_post_author($post_id),$notification_text);
-		header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
+		header_to_lastpage($last_page,$profile_id,$post_id,$searched);
 		break;
 
 	case 'notifications' :
 		$notifications = get_notifications($user_id);
 		make_notifications_seen($user_id);
+		include './view/navbar.php';
 		include 'view/notifications.php';
 		break;
 
@@ -155,8 +170,17 @@ switch ($action) {
 
 	case 'inbox' :
 		$contacts = get_contacts($user_id) ;
+		include './view/navbar.php';
 		include './view/massages-box.php' ;
 		break;
+
+	case 'search' :
+		$searched = filter_input(INPUT_GET,'searched-word',FILTER_SANITIZE_STRING);
+		$posts = search_posts($searched);
+		include './view/navbar.php';
+		include './view/posts.php';
+
+		break;	
 
 	case 'logout' :
 		unset($_SESSION['username']);

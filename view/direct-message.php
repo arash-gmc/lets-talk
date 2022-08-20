@@ -39,7 +39,7 @@
 		<?php $c=1; ?>
 		<?php foreach ($messages as $message) : ?>
 			<?php if($message['from_id']==$user_id){$mine=true;}else{$mine=false;} ?>
-			<div class="d-flex <?php if ($mine){echo 'justify-content-end my-0';}else{ echo 'my-3';} ?>" id='message<?= $c ?>'>
+			<div class="d-flex my-0 <?php if ($mine){echo 'justify-content-end ';} ?>" id='message<?= $c ?>'>
 				<div class="d-flex w-75 <?php if ($mine){echo 'justify-content-end';} ?>">
 					<div style="position: relative;">
 					<?php if($mine) { ?>

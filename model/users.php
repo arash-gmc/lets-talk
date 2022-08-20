@@ -177,6 +177,41 @@ function followers_count($profile_id){
  
 }
 
+function get_followings($profile_id){
+	global $db;
+	$query = 'SELECT followings FROM users WHERE ID = :profile_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':profile_id', $profile_id);
+	$statment -> execute();
+	$followings = ($statment -> fetch())[0] ;
+	$followings = explode(',', $followings);
+	if (count($followings)==1){
+		if ($followings[0]==''){
+			return 0;
+		}
+	}	
+	
+	return $followings;
+ 
+}
+
+function get_followers($profile_id){
+	global $db;
+	$query = 'SELECT followers FROM users WHERE ID = :profile_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':profile_id', $profile_id);
+	$statment -> execute();
+	$followers = ($statment -> fetch())[0] ;
+	$followers = explode(',', $followers);
+	if (count($followers)==1){
+		if ($followers[0]==''){
+			return null;
+		}
+	}	
+	return $followers;
+ 
+}
+
 
 
 

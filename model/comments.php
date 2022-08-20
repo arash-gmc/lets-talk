@@ -51,10 +51,18 @@ function comment_check($user_id,$post_id){
 	}
 	return false;
 
-	
-	
 }
 
+function get_all_comments($post_id){
+	global $db;
+	$query = 'SELECT * FROM comments WHERE post_id = :post_id ORDER BY date_time DESC';
+	$statement = $db->prepare($query);
+	$statement->bindValue(':post_id',$post_id);
+	$statement->execute();
+	$comments = $statement -> fetchAll();
+	$statement->closeCursor();
+	return $comments;
+}
 
 
 ?>

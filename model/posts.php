@@ -24,6 +24,17 @@ function get_all_posts(){
 	return $posts;
 }
 
+function get_one_post($post_id){
+	global $db;
+	$query = "SELECT * FROM posts WHERE ID = :post_id";
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':post_id',$post_id);
+	$statment -> execute();
+	$post = $statment->fetch();
+	$statment -> closeCursor();
+	return $post;
+}
+
 
 function get_posts_from_one_user($user_id){
 	global $db;
@@ -141,7 +152,6 @@ function like_count($post_id){
 }	
 
 
-
 function posts_count($user_id){
 	global $db;
 	$query = 'SELECT count(ID) FROM posts WHERE `user-id` = :user_id';
@@ -164,3 +174,36 @@ function find_post_author($post_id){
 	$statement->closeCursor();
 	return $result[0];
 }
+
+function get_likers($post_id){
+	global $db;
+	$query = 'SELECT likes FROM posts WHERE ID = :post_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':post_id', $post_id);
+	$statment -> execute();
+	$likers = ($statment -> fetch())[0] ;
+	$statment -> closeCursor();
+	$likers = explode(',', $likers);
+
+	if (count($likers)==1){
+		if ($likers[0]==''){
+			return null;
+		}
+	}
+	
+	return $likers;
+	 
+}	
+
+function search_posts($searched_word){
+	global $db;
+	$query = "SELECT * FROM posts WHERE post LIKE '%:searched%' ORDER BY `date-time` DESC";
+	$query = str_replace(':searched', $searched_word, $query);
+	$statement = $db->prepare($query);
+	$statement->execute();
+	$result = $statement -> fetchAll();
+	$statement->closeCursor();
+	return $result;
+}
+
+

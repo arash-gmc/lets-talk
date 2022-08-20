@@ -1,4 +1,4 @@
-function test(e){
+function show_comments(e){
 	let comment_id = e.id
 	
 	post_id = comment_id.replace('comment','post')
@@ -10,4 +10,16 @@ function test(e){
 		comment_box.classList.add('d-none')
 	}
 	
+}
+
+
+function show_likers(e){
+	likersBox = document.getElementById('likers_box')
+	if (likersBox.classList.contains('d-none')){
+		likersBox.classList.remove('d-none')
+		likersBox.classList.add('d-flex')
+	}else{
+		likersBox.classList.add('d-none')
+		likersBox.classList.remove('d-flex')
+	}
 }
