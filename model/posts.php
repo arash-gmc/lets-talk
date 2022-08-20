@@ -49,7 +49,7 @@ function get_posts_from_one_user($user_id){
 	return $posts;
 }
 
-function get_selected_posts($selected_ids){
+function get_posts_from_selected_ids($selected_ids){
 	global $db;
 	$selected_ids = '('.$selected_ids.')';
 	$query = "SELECT posts.* , users.username FROM posts 
@@ -57,6 +57,18 @@ function get_selected_posts($selected_ids){
 	WHERE users.ID IN :following
 	ORDER BY `date-time` DESC";
 	$query = str_replace(':following', $selected_ids, $query);
+	$statment = $db->prepare($query);
+	$statment -> execute();
+	$posts = $statment->fetchAll();
+	$statment -> closeCursor();
+	return $posts;
+}
+
+function get_favourites_post($favourites_ids){
+	global $db;
+	$selected_ids = '('.$favourites_ids.')';
+	$query = "SELECT * FROM posts WHERE ID IN :selected_ids ORDER BY `date-time` DESC";
+	$query = str_replace(':selected_ids', $selected_ids, $query);
 	$statment = $db->prepare($query);
 	$statment -> execute();
 	$posts = $statment->fetchAll();

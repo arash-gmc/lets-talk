@@ -20,10 +20,13 @@
 <div class=" mt-3">
 	<ul class="nav nav-tabs mx-5">
 	  <li class="nav-item">
-	    <a class="nav-link <?php if($action=='timeline'){echo 'active';} ?>" aria-current="page" href=".?action=timeline">All Users</a>
+	    <a class="nav-link <?php if($action=='timeline'){echo 'active';} ?>" aria-current="page" href=".?action=timeline">All Posts</a>
 	  </li>
 	  <li class="nav-item">
 	    <a class="nav-link <?php if($action=='following-timeline'){echo 'active';} ?>" href=".?action=following-timeline">Followings</a>
+	  </li>
+	  <li class="nav-item">
+	    <a class="nav-link <?php if($action=='favourites-timeline'){echo 'active';} ?>" aria-current="page" href=".?action=favourites-timeline">Favourites</a>
 	  </li>
 	</ul>
 </div>

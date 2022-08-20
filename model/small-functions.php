@@ -3,6 +3,10 @@
 function header_to_lastpage($last_page,$profile_id,$post_id,$searched){
 	if ($last_page=='timeline'){
 			header("Location: .?action=".$last_page."#post-".$post_id);
+		}else if ($last_page=='following-timeline'){
+			header("Location: .?action=".$last_page."#post-".$post_id);
+		}else if ($last_page=='favourites-timeline'){
+			header("Location: .?action=".$last_page."#post-".$post_id);
 		}else if ($last_page=='profile'){
 			header("Location: .?action=".$last_page.'&profile_id='.$profile_id."#post-".$post_id);
 		}else if ($last_page=='post-detail'){

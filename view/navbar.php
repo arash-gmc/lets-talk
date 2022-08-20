@@ -21,9 +21,6 @@
         <li class="nav-item">
           <a class="nav-link" href=".?action=profile&profile_id=<?= $_SESSION['user_id'] ?>">My Profile</a>
         </li>
-         <li class="nav-item">
-          <a class="nav-link" href="#">Saved Posts</a>
-        </li>
         <li class="nav-item" style="position: relative;">
           <a class="nav-link" href=".?action=notifications">Notifications</a>
           <?php if($unseen_notification){ ?>

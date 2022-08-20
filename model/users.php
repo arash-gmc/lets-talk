@@ -213,6 +213,73 @@ function get_followers($profile_id){
 }
 
 
+function add_to_favourites($user_id,$post_id){
+	global $db;
+	$query = 'SELECT favourites FROM users WHERE ID = :user';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':user', $user_id);
+	$statment -> execute();
+	$favourites = ($statment -> fetch())[0] ;
+	$favourites = explode(',', $favourites);
+	if(!(in_array($post_id, $favourites))){
+		array_push($favourites, $post_id);
+	}
+	$favourites = implode(',',$favourites);
+	if(substr($favourites,0,1)==','){$favourites = substr($favourites,1,strlen($favourites));}
+	$query = 'UPDATE users SET favourites = :favourites WHERE ID = :user';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':user', $user_id);
+	$statment -> bindValue (':favourites', $favourites);
+	$statment -> execute();
+
+}
+
+
+function remove_from_favourites($user_id,$post_id){
+	global $db;
+	$query = 'SELECT favourites FROM users WHERE ID = :user_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':user_id', $user_id);
+	$statment -> execute();
+	$favourites = ($statment -> fetch())[0] ;
+	$favourites = explode(',', $favourites);
+	if(in_array($post_id, $favourites)){
+		$key = array_search($post_id, $favourites);
+		unset($favourites[$key]);
+	}
+	$favourites = implode(',',$favourites);
+	$query = 'UPDATE users SET favourites = :favourites WHERE ID = :user_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':user_id', $user_id);
+	$statment -> bindValue (':favourites', $favourites);
+	$statment -> execute();
+
+}
+
+function favourites_check($user_id,$post_id){
+	global $db;
+	$query = 'SELECT favourites FROM users WHERE ID = :user_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':user_id', $user_id);
+	$statment -> execute();
+	$favourites = ($statment -> fetch())[0] ;
+	$favourites = explode(',', $favourites);
+	if(in_array($post_id, $favourites)){
+		return true ;
+	}else{
+		return false ;
+	}
+}
+
+function get_favourites($user_id){
+	global $db;
+	$query = 'SELECT favourites FROM users WHERE ID = :user_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':user_id', $user_id);
+	$statment -> execute();
+	$favourites = ($statment -> fetch())[0] ;
+	return $favourites;
+}
 
 
 ?>

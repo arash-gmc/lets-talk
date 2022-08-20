@@ -67,11 +67,17 @@ switch ($action) {
 
 	case 'following-timeline' :
 		$followings = $_SESSION['followings'];
-		$posts = get_selected_posts($followings);
+		$posts = get_posts_from_selected_ids($followings);
+		include './view/navbar.php';
 		include './view/timeline.php';		
 		break;
-
-		break;	
+		
+	case 'favourites-timeline' :
+		$favourites = get_favourites($user_id);
+		$posts = get_favourites_post($favourites);
+		include './view/navbar.php';
+		include './view/timeline.php';
+		break;		
 
 	case 'post-send' :
 		$post_text  = filter_input(INPUT_POST,'post-text',FILTER_SANITIZE_STRING);
@@ -82,7 +88,7 @@ switch ($action) {
 	case 'profile' :
 		$profile_id  = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
 		$username = find_username($profile_id);
-		$posts = get_selected_posts($profile_id);
+		$posts = get_posts_from_selected_ids($profile_id);
 		$unseen_notification = count_unseen_notification($user_id);
 		$unseen_messages = check_all_unseen_messages($user_id);
 		include './view/navbar.php';
@@ -133,6 +139,24 @@ switch ($action) {
 		unlike($post_id,$user_id);
 		header_to_lastpage($last_page,$profile_id,$post_id,$searched);
 		break;
+
+	case 'fave' :
+		$post_id = filter_input(INPUT_GET,'post',FILTER_SANITIZE_STRING);
+		$last_page = filter_input(INPUT_GET,'lastpage',FILTER_SANITIZE_STRING);
+		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
+		$searched = filter_input(INPUT_GET,'searched',FILTER_SANITIZE_STRING);
+		add_to_favourites($user_id,$post_id);
+		header_to_lastpage($last_page,$profile_id,$post_id,$searched);
+		break;
+
+	case 'unfave' :
+		$post_id = filter_input(INPUT_GET,'post',FILTER_SANITIZE_STRING);
+		$last_page = filter_input(INPUT_GET,'lastpage',FILTER_SANITIZE_STRING);
+		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
+		$searched = filter_input(INPUT_GET,'searched',FILTER_SANITIZE_STRING);
+		remove_from_favourites($user_id,$post_id);
+		header_to_lastpage($last_page,$profile_id,$post_id,$searched);
+		break;	
 
 	case 'add_comment':
 		$post_id = filter_input(INPUT_GET,'post_id',FILTER_SANITIZE_STRING);

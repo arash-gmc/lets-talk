@@ -18,7 +18,7 @@ if ($password!=$password2){
 	die();
 }
 
-if(strlen($password)<1){
+if(strlen($password)<5){
 	$message = 'Passwords is too short.';
 	include './view/signup.php';
 	die();
@@ -33,8 +33,8 @@ if ($is_avatar){
 		die();
 	}
 
-	if ($size_avatar > 1048579){
-		$message = 'file is too big. maximum file size is 1MB.';
+	if ($size_avatar > 512000){
+		$message = 'file is too big. maximum file size is 500 KB.';
 		include './view/signup.php';
 		die();
 	}
