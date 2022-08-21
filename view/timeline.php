@@ -12,13 +12,13 @@
 		<?php } ?>	
 		<p class="text-muted mt-3 text-center"><?= $_SESSION['username'] ?></p>
 	</div>
-	<textarea rows="3" style="resize: none;min-width: 320px;height: 160px" class="form-control w-50 mx-md-4 mx-2 p-1 lead" name='post-text'></textarea>
+	<textarea rows="3" style="resize: none;min-width: 260px;height: 160px" class="form-control w-50 mx-md-4 mx-2 p-1 lead" name='post-text'></textarea>
 	<button class="btn btn-primary h-25 align-self-center">Post</button>
 	
 </form>
 
 <div class=" mt-3">
-	<ul class="nav nav-tabs mx-5">
+	<ul class="nav nav-tabs mx-sm-5">
 	  <li class="nav-item">
 	    <a class="nav-link <?php if($action=='timeline'){echo 'active';} ?>" aria-current="page" href=".?action=timeline">All Posts</a>
 	  </li>
