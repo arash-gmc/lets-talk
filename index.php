@@ -59,6 +59,15 @@ switch ($action) {
 		require './model/signup.php';
 		break;	
 
+	case 'edit-profile' :
+		include './view/navbar.php';
+		include './view/edit-profile.php';
+		break;	
+
+	case 'update-profile' :
+		require 'model/update-user-properties.php' ;
+		break;	
+
 	case 'timeline':
 		$posts = get_all_posts();
 		include './view/navbar.php';
@@ -125,9 +134,8 @@ switch ($action) {
 		$searched = filter_input(INPUT_GET,'searched',FILTER_SANITIZE_STRING);
 		like($post_id,$user_id);
 		$post_author = find_post_author($post_id);
-		$notification_text = $_SESSION['username'].' liked your <a href="#">post</a>';
+		$notification_text = $_SESSION['username'].' liked your <a href=".?action=post-detail&post-id='.$post_id.'">post</a>';
 		make_notification($user_id,$post_author,$notification_text);
-		var_dump($searched);
 		header_to_lastpage($last_page,$profile_id,$post_id,$searched);	
 		break;	
 
@@ -165,7 +173,7 @@ switch ($action) {
 		$profile_id = filter_input(INPUT_GET,'profile_id',FILTER_SANITIZE_STRING);
 		$searched = filter_input(INPUT_GET,'searched',FILTER_SANITIZE_STRING);
 		add_comment($user_id,$post_id,$post_text);
-		$notification_text = $_SESSION['username'].' add a comment bellow your <a href="#">post</a>'; 
+		$notification_text = $_SESSION['username'].' add a comment bellow your <a href=".?action=post-detail&post-id='.$post_id.'">post</a>'; 
 		make_notification($user_id,find_post_author($post_id),$notification_text);
 		header_to_lastpage($last_page,$profile_id,$post_id,$searched);
 		break;

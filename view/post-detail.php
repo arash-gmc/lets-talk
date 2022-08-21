@@ -22,7 +22,11 @@
 					<p class="lead"><?= $post['post'] ?></p> 
 				</div>
 				<div class="d-flex justify-content-around container w-75 py-2">
-					<a href="#"><img src="./view/imgs/star.svg" style="height: 20px"></a>
+					<?php if(!favourites_check($user_id,$post['ID'])){ ?>
+						<a href=".?action=fave&post=<?= $post['ID'] ?>&lastpage=<?= $action ?><?php if($action=='profile'){echo '&profile_id='.$profile_id;}else if($action=='search'){echo '&searched='.$searched;} ?>"><img src="./view/imgs/star.svg" style="height: 20px"></a>
+					<?php }else{ ?>
+						<a href=".?action=unfave&post=<?= $post['ID'] ?>&lastpage=<?= $action ?><?php if($action=='profile'){echo '&profile_id='.$profile_id;}else if($action=='search'){echo '&searched='.$searched;} ?>"><img src="./view/imgs/stared.svg" style="height: 20px"></a>
+					<?php } ?>		
 					<a href="#"><img src="./view/imgs/forward.svg" style="height: 26px"></a>
 					<?php if(!comment_check($_SESSION['user_id'],$post['ID'])){ ?>
 						<div class="d-flex">

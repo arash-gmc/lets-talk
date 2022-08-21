@@ -40,7 +40,7 @@
       <form class="d-flex" role="search" method="get" action=".">
         <input type="hidden" name="action" value='search'>
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='searched-word'>
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <button class="btn btn-outline-dark" type="submit">Search</button>
       </form>
       
     </div>

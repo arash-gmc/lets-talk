@@ -34,6 +34,30 @@ function add_user($username,$password){
 	return $done;
 }
 
+
+function update_user_info($user_id,$property_to_update,$new_value){
+	global $db;
+	$query = "UPDATE users SET :property = :new_value WHERE ID = :user_id";
+	$query = str_replace(':property', $property_to_update, $query);
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':new_value',$new_value);
+	$statment -> bindValue (':user_id',$user_id);
+	$done = $statment -> execute();
+	$statment -> closeCursor();
+	return $done;
+}
+
+function get_password($user_id){
+	global $db;
+	$query = 'SELECT password FROM users WHERE ID = :user_id';
+	$statment = $db->prepare($query);
+	$statment -> bindValue (':user_id',$user_id);
+	$statment -> execute();
+	$password = $statment -> fetch();
+	$statment -> closeCursor();
+	return $password[0];
+}
+
 function follow($following_id,$followed_id){
 	global $db;
 	$query = 'SELECT followings FROM users WHERE ID = :following_id';

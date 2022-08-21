@@ -2,7 +2,7 @@
 
 <form class='container d-flex mt-5 justify-content-center' method="post" action=".">
 	<input type="hidden" name="action" value="post-send">
-	<div class="mt-3">
+	<div class="mt-3 d-none d-md-block">
 		<?php if(file_exists('./view/profile-pictures/'.$_SESSION['username'].'.jpg')){ ?>
 			<img src="./view/profile-pictures/<?= $_SESSION['username'] ?>.jpg"
 			 style="width: 90px ; height: 90px;object-fit: cover;"
@@ -12,7 +12,7 @@
 		<?php } ?>	
 		<p class="text-muted mt-3 text-center"><?= $_SESSION['username'] ?></p>
 	</div>
-	<textarea rows="3" cols="48" style="resize: none" class="mx-4 p-1 lead" name='post-text'></textarea>
+	<textarea rows="3" style="resize: none;min-width: 320px;height: 160px" class="form-control w-50 mx-md-4 mx-2 p-1 lead" name='post-text'></textarea>
 	<button class="btn btn-primary h-25 align-self-center">Post</button>
 	
 </form>

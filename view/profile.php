@@ -1,18 +1,18 @@
 
 <div class="d-flex justify-content-center">
-	<div class='d-flex my-3 container w-75 '>
-		
+	<div class='d-sm-flex my-3 container w-75 '>
+		<div class="d-lg-flex w-25 d-none ">
 			<?php if(file_exists('./view/profile-pictures/'. $username .'.jpg')){ ?>
 				<img src="./view/profile-pictures/<?= $username ?>.jpg"
 				 style="width: 180px ; height: 180px;object-fit: cover;"
-				 class="border rounded-circle img-fluid mt-5">
+				 class="border rounded-circle mt-5">
 			<?php }else{ ?>
 				<div class="my-4"><i class="bi bi-person display-2 p-3 border-secondary border rounded-circle" ></i></div>
 			<?php } ?>
-			
-		<div class="container d-flex flex-column mx-md-4 text-center">
+		</div>	
+		<div class="container d-flex flex-column mx-xl-5 text-center">
 			<div class="display-3 mx-3 w-100 "> <?= $username ?> </div>
-			<div class="d-flex justify-content-around mt-5">
+			<div class="d-flex justify-content-between mx-md-5 mt-5">
 				<a data-bs-toggle="modal" data-bs-target="#followers-modal">
 					<div class="h4" style="cursor: pointer;"><p><?= followers_count($profile_id)?></p><p>Followers</p></div>
 				</a>
@@ -40,15 +40,18 @@
 				<a href=".?action=chat-page&contact=<?= $profile_id ?>#message1" class="btn btn-primary mx-3" style="width: 100px">Message</a>	
 			</div>
 		<?php }else{ ?>
-			<div class="d-flex flex-column mt-5">
+			<div class="d-flex flex-column mt-2">
+				<div>
+					<a href=".?action=edit-profile" class="btn btn-primary my-3 w-100">Edit Profile</a>
+				</div>
 				<div style="position: relative;">
-					<a href=".?action=notifications" class="btn btn-primary">Notifications</a>
+					<a href=".?action=notifications" class="btn btn-primary w-100">Notifications</a>
 					<?php if($unseen_notification){ ?>
 						<div style="position: absolute;font-size: 16px;background-color: red;top: -10px;right: -10px;color: white;border-radius: 10px; text-align: center;width: 20px;height: 24px"><?= $unseen_notification ?></div>
 					<?php } ?>
 				</div>	
 				<div style="position: relative;" class="d-flex">
-					<a href=".?action=inbox" class="btn btn-primary my-3 mx-0">Messages</a>
+					<a href=".?action=inbox" class="btn btn-primary my-3 w-100">Messages</a>
 					<?php if($unseen_messages){ ?>
 						<div style="position: absolute;font-size: 16px;background-color: red;top: 6px;right: 8px;color: white;border-radius: 10px; text-align: center;width: 20px;height: 24px"><?= $unseen_messages ?></div>
 					<?php } ?>

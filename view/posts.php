@@ -61,13 +61,13 @@
 					<div>
 						<?php $comments = get_some_comments($post['ID']);
 							foreach ($comments as $comment) : ?>
-								<div class="d-flex mx-4 my-3 border-bottom">
-									<div class="mx-2">
+								<div class="d-flex mx-4 my-3 border-bottom pb-2">
+									<div class="mx-1">
 										<?php $comment_writer = find_username($comment['user_id']); ?>
 										<?php if(file_exists('./view/profile-pictures/'.$comment_writer.'.jpg')){ ?>
 											<a href=".?action=profile&profile_id=<?= $comment['user_id'] ?>"><img src="./view/profile-pictures/<?= $comment_writer ?>.jpg"
 											 style="width: 30px ; height: 30px;object-fit: cover;"
-											 class="border rounded-circle img-fluid"></a>
+											 class="border rounded-circle"></a>
 										<?php }else{ ?>
 											<i class="bi bi-person h1 p-2 border-secondary border rounded-circle"></i>
 										<?php } ?>
@@ -95,8 +95,8 @@
 						<?php }else if($action=='search'){ ?>
 							<input type="hidden" name="searched" value="<?= $searched ?>">
 						<?php } ?>		
-						<textarea rows="1" cols="60" style="resize: none" class="mx-4 p-1 lead" name='post-text'></textarea>
-						<button class="btn btn-sm btn-primary my-3">Comment</button>
+						<textarea rows="1" style="resize: none" class="mx-4 p-1 lead form-control" name='post-text'></textarea>
+						<button class="btn btn-sm btn-primary my-1">Comment</button>
 					</form>
 				</div>	
 			</div>
